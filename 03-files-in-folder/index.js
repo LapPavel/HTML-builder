@@ -5,9 +5,8 @@ const folder = path.join(__dirname, 'secret-folder');
 fs.readdir(folder, { withFileTypes: true }, (err, files) => {
   if (err) throw err;
 
-  files
-    .filter((file) => file.isFile())
-    .forEach((file) => {
+  files.forEach((file) => {
+    if (file.isFile()) {
       const filePath = path.join(folder, file.name);
       fs.stat(filePath, (err, stats) => {
         if (err) throw err;
@@ -16,5 +15,6 @@ fs.readdir(folder, { withFileTypes: true }, (err, files) => {
           `${name} - ${ext.slice(1)} - ${(stats.size / 1024).toFixed(2)} kb`,
         );
       });
-    });
+    }
+  });
 });
